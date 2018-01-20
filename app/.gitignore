@@ -1,0 +1,5 @@
+dev/js/out_front/*
+dev/js/out_main/*
+prod/js/out_front/*
+prod/js/out_main/*
+dev/css/.sass-cache/*

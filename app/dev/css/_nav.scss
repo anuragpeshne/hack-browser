@@ -1,0 +1,125 @@
+$buttons_Width: 250px;
+body {
+    height: 100%;
+    display: block;
+    overflow: hidden;
+}
+.common-buttons
+{
+    float: left;
+    display: block;
+    width: $buttons_Width / 8;
+    font-size: 20px;
+    color: $nav-icon-color;
+    margin: 1px;
+    padding: 1px;
+    i
+    {
+        cursor: pointer;
+    }
+}
+#navigation
+{
+    width: 100%;
+    height: 32px;
+    background: $gray;
+    display: block;
+    top: 0;
+    left: 0;
+    border-bottom: 2px solid darken($gray, 10%);
+    box-sizing: border-box;
+    padding: 4px;
+    #back
+    {
+        @extend .common-buttons;
+    }
+    #forward
+    {
+        @extend .common-buttons;
+    }
+    #refresh
+    {
+        @extend .common-buttons;
+    }
+    #fave {
+        @extend .common-buttons;
+    }
+    #list {
+        @extend .common-buttons;
+    }
+    #omnibox
+    {
+        float: left;
+        display: block;
+        width: calc(100% - #{$buttons_Width});
+        color: #333333;
+        input
+        {
+            border: none;
+            outline: none;
+            height: 20px;
+            width: 90%;
+            border-radius: 2px;
+            padding: 2px 6px;
+            color: $black;
+            font-family: Tahoma;
+            font-size: 13px;
+        }
+    }
+    #console
+    {
+        @extend .common-buttons;
+    }
+    #hack
+    {
+        @extend .common-buttons;
+    }
+    #fave-popup
+    {
+        display: none;
+        position: fixed;
+        right: 1px;
+        color: $white;
+        top: 29px;
+        width: 180px;
+        height: 200px;
+        z-index: 20;
+        padding: 1px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        background: $blue;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        .link
+        {
+            width: 100%;
+            height: 32px;
+            color: $white;
+            font-family: monospace;
+            font-size: 13px;
+            text-decoration: none;
+            text-align: left;
+            display: block;
+            line-height: 32px;
+            .favicon
+            {
+                width: 32px;
+                height: 32px;
+                float: left;
+                background: $white;
+            }
+        }
+    }
+}
+.CodeMirror
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    min-height: 50px;
+    border-top: 2px #aaa solid;
+    background-color: rgba(250,250,250,0.8);
+}
