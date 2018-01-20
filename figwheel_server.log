@@ -1,0 +1,96 @@
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 1.4 seconds.[0m
+notifying browser that file changed:  app/dev/js/front.js
+notifying browser that file changed:  app/dev/js/out_front/goog/deps.js
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.435 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.479 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[36m----  Compiler Warning on   src_front/hack_browser_front/core.cljs   line:15  column:1  ----[0m
+
+  [1mgo at line 5 is being replaced[0m
+
+  [36m11[0m  [36m(def fav     (.getElementById js/document "fav"))[0m
+  [36m12[0m  [36m(def popup   (.getElementById js/document "fav-popup"))[0m
+  [36m13[0m  [36m(def view    (.getElementById js/document "view"))[0m
+  [36m14[0m  [36m[0m
+  [33m15[0m  [1m(defn go [link] (.loadURL view link))[0m
+  [0m  [0m  [33m^--- go at line 5 is being replaced[0m
+  [36m16[0m  [36m[0m
+  [36m17[0m  [36m(defn reload-view  [] (.reload    view))[0m
+  [36m18[0m  [36m(defn back-view    [] (.goBack    view))[0m
+  [36m19[0m  [36m(defn forward-view [] (.goForward view))[0m
+
+[36m----  Compiler Warning : Please see src_front/hack_browser_front/core.cljs  ----[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.563 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.364 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.473 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[31mFailed to compile "app/dev/js/front.js" in 0.352 seconds.[0m
+[36m----  Could not Analyze  src_front/hack_browser_front/core.cljs   line:16  column:5  ----[0m
+
+  [1mlet requires an even number of forms in binding vector[0m
+
+  [36m14[0m  [36m(defn go-to-url [event][0m
+  [36m15[0m  [36m  (if (= (.keyCode event) 13)[0m
+  [33m16[0m  [1m    (let [omni-val] (.value omni)[0m
+  [0m  [0m  [33m    ^--- let requires an even number of forms in binding vector[0m
+  [36m17[0m  [36m         (.loadURL view omni-val))))[0m
+  [36m18[0m  [36m[0m
+  [36m19[0m  [36m(defn reload-view  [] (.reload    view))[0m
+
+[36m----  Analysis Error : Please see src_front/hack_browser_front/core.cljs  ----[0m
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[36m----  Compiler Warning on   src_front/hack_browser_front/core.cljs   line:27  column:22  ----[0m
+
+  [1mUse of undeclared Var hack-browser-front.core/go[0m
+
+  [36m23[0m  [36m(defn init-event-listeners [][0m
+  [36m24[0m  [36m  (.addEventListener refresh "click"   reload-view)[0m
+  [36m25[0m  [36m  (.addEventListener back    "click"   back-view)[0m
+  [36m26[0m  [36m  (.addEventListener forward "click"   forward-view)[0m
+  [33m27[0m  [1m  (.addEventListener go      "keydown" go-to-url))[0m
+  [0m  [0m  [33m                     ^--- Use of undeclared Var hack-browser-front.core/go[0m
+  [36m28[0m  [36m[0m
+  [36m29[0m  [36m(defn mount-root [setting][0m
+  [36m30[0m  [36m  (let [app (. js/document (getElementById "app"))][0m
+  [36m31[0m  [36m    (set! (.-innerHTML app) (:my-env setting))))[0m
+
+[36m----  Compiler Warning : Please see src_front/hack_browser_front/core.cljs  ----[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.314 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.273 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.369 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.269 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.301 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 1.953 seconds.[0m
+notifying browser that file changed:  app/dev/js/front.js
+notifying browser that file changed:  app/dev/js/out_front/goog/deps.js
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.987 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.573 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
+[0mCompiling "app/dev/js/front.js" from ["src_front" "src_front_profile/hack_browser_front/dev"]...[0m
+[32mSuccessfully compiled "app/dev/js/front.js" in 0.346 seconds.[0m
+notifying browser that file changed:  app/dev/js/out_front/hack_browser_front/core.js
