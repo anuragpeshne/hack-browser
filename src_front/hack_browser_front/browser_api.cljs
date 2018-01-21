@@ -1,3 +1,4 @@
+(require 'cljs.nodejs)
 
 (def back    (.getElementById js/document "back"))
 
@@ -18,6 +19,10 @@
 (def console (.getElementById js/document "hack-console"))
 
 (def nav-bar (.getElementById js/document "navigation"))
+
+(def Electron (cljs.nodejs/require "electron"))
+
+(def electron-session (.-session Electron))
 
 (defn go-to-url [url]
   (.loadURL view url)
@@ -46,6 +51,11 @@
   [component]
   (set! (-> component .-style .-display) "")
   :ok)
+
+(defn hook-before-send-headers
+  "adds hook to Electron.onBeforeSendHeaders"
+  [filter cb]
+  (-> electron-session .-defaultSession .-webRequest (.onBeforeSendHeaders filter cb)))
 
 (defn update-nav [event]
   (set! (.-value omni) (.-src view)))
