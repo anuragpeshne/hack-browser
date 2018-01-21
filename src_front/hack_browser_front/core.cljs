@@ -1,4 +1,7 @@
-(ns hack-browser-front.core)
+(ns hack-browser-front.core
+  (:require [clojure.tools.reader.edn :as edn]
+            [cljs.js :refer [empty-state eval js-eval]]
+            [cljs.pprint :refer [pprint]]))
 
 (defonce app-state (atom {:message "Hello Minimum app world!"}))
 
@@ -18,6 +21,18 @@
                                            "lineNumbers" true,
                                            "matchBrackets" true,
                                            "autoCloseBrackets" true})))
+
+(def state
+  "A compiler state, which is shared across compilations."
+  (empty-state))
+
+(defn eval-str [s]
+  (eval state
+        (edn/read-string s)
+        {:eval       js-eval
+         :source-map true
+         :context    :expr}
+        (fn [result] (update result :error #(some-> % .-cause .-message)))))
 
 (defn go-to-url [event]
   (if (= (.-keyCode event) 13)
@@ -53,9 +68,9 @@
 (defn eval-hack-console [event]
   (let [input-code (.getValue hack-console)]
     (.preventRepeat event)
-    (.setValue hack-console "")
-    (.log js/console input-code)
-    (eval input-code)))
+    (let [output (eval-str input-code)]
+      (.setValue hack-console (str (:value output)))
+      (.bind js/keyboardJS "ctrl + c" eval-hack-console))))
 
 (defn search-string-doc []
   (.log js/console "it works"))

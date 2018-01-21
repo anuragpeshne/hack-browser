@@ -12,5 +12,5 @@ node_modules/*
 *.iml
 *.ipr
 *.iws
+*.log
 electron/*
-app/
