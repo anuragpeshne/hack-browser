@@ -6,6 +6,7 @@
 
 (def hack    (.getElementById js/document "hack"))
 (def console (.getElementById js/document "hack-console"))
+(def view    (.getElementById js/document "view"))
 
 (def state
   "A compiler state, which is shared across compilations."
@@ -13,6 +14,7 @@
 
 (def hack-console (js/CodeMirror console (clj->js
                                           {"mode" "clojure",
+                                           "theme" "zenburn"
                                            "lineNumbers" true,
                                            "matchBrackets" true,
                                            "autoCloseBrackets" true})))
@@ -22,7 +24,7 @@
     (fn []
       (if @is-console-visible
         (do
-          (.blur console)
+          (.focus view)
           (set! (-> console .-style .-display) "none")
           (reset! is-console-visible false))
         (do
@@ -47,7 +49,9 @@
                                        "src_front/hack_browser_front/browser_api.cljs",
                                        "utf8")]
     (run! #(eval-str %) (clojure.string/split browser-api-str #"\n\n"))
-    (.log js/console "eval api done")))
+    (.log js/console "eval api done")
+    (eval-str "(init-event-listeners)")
+    (eval-str "(init-key-bindings)")))
 
 (defn eval-hack-console [event]
   (let [input-code (.getValue hack-console)]
@@ -58,6 +62,6 @@
 
 (defn init! [setting]
   (.bind js/keyboardJS "ctrl + c" eval-hack-console)
-  (.bind js/keyboardJS "ctrl + s" eval-browser-api)
   (.bind js/keyboardJS "alt + x"  toggle-hack-console)
+  (.bind js/keyboardJS "ctrl + s" eval-browser-api)
   (toggle-hack-console))

@@ -17,16 +17,35 @@
 
 (def console (.getElementById js/document "hack-console"))
 
-(defn go-to-url [event]
+(def nav-bar (.getElementById js/document "navigation"))
+
+(defn go-to-url [url]
+  (.loadURL view url)
+  (.focus view)
+  :ok)
+
+(defn handle-omni-go [event]
   (if (= (.-keyCode event) 13)
     (let [omni-val (.-value omni)]
       (.blur omni)
-      (.loadURL view omni-val))))
+      (go-to-url omni-val))))
 
 (defn handle-dev-tools []
   (if (.isDevToolsOpened view)
     (.closeDevTools view)
     (.openDevTools view)))
+
+(defn hide
+  "hides component on Browser; (a DOM element)"
+  [component]
+  (set! (-> component .-style .-display) "none")
+  :ok)
+
+(defn show
+  "hides component on Browser; (a DOM element)"
+  [component]
+  (set! (-> component .-style .-display) "")
+  :ok)
 
 (defn update-nav [event]
   (set! (.-value omni) (.-src view)))
@@ -44,7 +63,7 @@
   (.addEventListener refresh "click"   reload-view)
   (.addEventListener back    "click"   back-view)
   (.addEventListener forward "click"   forward-view)
-  (.addEventListener omni    "keydown" go-to-url)
+  (.addEventListener omni    "keydown" handle-omni-go)
   (.addEventListener dev     "click"   handle-dev-tools)
   ;(.addEventListener hack    "click"   toggle-hack-console)
   (.addEventListener view    "did-finish-load" update-nav))
