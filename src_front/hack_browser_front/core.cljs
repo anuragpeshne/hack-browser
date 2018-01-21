@@ -1,49 +1,21 @@
 (ns hack-browser-front.core
   (:require [clojure.tools.reader.edn :as edn]
             [cljs.js :refer [empty-state eval js-eval]]
-            [cljs.pprint :refer [pprint]]))
+            [cljs.pprint :refer [pprint]]
+            [cljs.nodejs :as nodejs]))
 
-(defonce app-state (atom {:message "Hello Minimum app world!"}))
-
-(def back    (.getElementById js/document "back"))
-(def forward (.getElementById js/document "forward"))
-(def refresh (.getElementById js/document "refresh"))
-(def omni    (.getElementById js/document "url"))
-(def dev     (.getElementById js/document "console"))
-(def fav     (.getElementById js/document "fav"))
-(def popup   (.getElementById js/document "fav-popup"))
-(def view    (.getElementById js/document "view"))
 (def hack    (.getElementById js/document "hack"))
 (def console (.getElementById js/document "hack-console"))
+
+(def state
+  "A compiler state, which is shared across compilations."
+  (empty-state))
 
 (def hack-console (js/CodeMirror console (clj->js
                                           {"mode" "clojure",
                                            "lineNumbers" true,
                                            "matchBrackets" true,
                                            "autoCloseBrackets" true})))
-
-(def state
-  "A compiler state, which is shared across compilations."
-  (empty-state))
-
-(defn eval-str [s]
-  (eval state
-        (edn/read-string s)
-        {:eval       js-eval
-         :source-map true
-         :context    :expr}
-        (fn [result] (update result :error #(some-> % .-cause .-message)))))
-
-(defn go-to-url [event]
-  (if (= (.-keyCode event) 13)
-    (let [omni-val (.-value omni)]
-      (.blur omni)
-      (.loadURL view omni-val))))
-
-(defn handle-dev-tools []
-  (if (.isDevToolsOpened view)
-    (.closeDevTools view)
-    (.openDevTools view)))
 
 (def toggle-hack-console
   (let [is-console-visible (atom true)]
@@ -58,12 +30,24 @@
           (.focus hack-console)
           (reset! is-console-visible true))))))
 
-(defn update-nav [event]
-  (set! (.-value omni) (.-src view)))
+(defn eval-str [s]
+  (.log js/console s)
+  (eval state
+        (edn/read-string s)
+        {:eval       js-eval
+         :source-map true
+         :verbose    true
+         :context    :expr}
+        (fn [result] (update result :error #(some-> % .-cause .-message)))))
 
-(defn reload-view  [] (.reload    view))
-(defn back-view    [] (.goBack    view))
-(defn forward-view [] (.goForward view))
+(defn eval-browser-api []
+  (.log js/console "eval api started")
+  (let [fs (nodejs/require "fs")
+        browser-api-str (.readFileSync fs
+                                       "src_front/hack_browser_front/browser_api.cljs",
+                                       "utf8")]
+    (run! #(eval-str %) (clojure.string/split browser-api-str #"\n\n"))
+    (.log js/console "eval api done")))
 
 (defn eval-hack-console [event]
   (let [input-code (.getValue hack-console)]
@@ -72,26 +56,8 @@
       (.setValue hack-console (str (:value output)))
       (.bind js/keyboardJS "ctrl + c" eval-hack-console))))
 
-(defn search-string-doc []
-  (.log js/console "it works"))
-
-(defn init-event-listeners []
-  (.addEventListener refresh "click"   reload-view)
-  (.addEventListener back    "click"   back-view)
-  (.addEventListener forward "click"   forward-view)
-  (.addEventListener omni    "keydown" go-to-url)
-  (.addEventListener dev     "click"   handle-dev-tools)
-  (.addEventListener hack    "click"   toggle-hack-console)
-  (.addEventListener view    "did-finish-load" update-nav))
-
-(defn init-key-bindings []
-  (.bind js/keyboardJS "alt + x"  toggle-hack-console)
-  (.bind js/keyboardJS "ctrl + c" eval-hack-console)
-  (.bind js/keyboardJS "mod + l" #(.focus omni)))
-
-(defn mount-root [setting])
-
 (defn init! [setting]
-  (init-event-listeners)
-  (init-key-bindings)
-  (mount-root setting))
+  (.bind js/keyboardJS "ctrl + c" eval-hack-console)
+  (.bind js/keyboardJS "ctrl + s" eval-browser-api)
+  (.bind js/keyboardJS "alt + x"  toggle-hack-console)
+  (toggle-hack-console))
